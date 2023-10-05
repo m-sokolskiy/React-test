@@ -1,5 +1,6 @@
-import { useState } from 'react';
+ import { useState } from 'react';
 import './App.css';
+import { useEffect } from 'react';
 
 const todos = {
   todos: [
@@ -24,12 +25,37 @@ const todos = {
   ]
 }
 
+const fetchTodos = () => {
+  return fetch ("https:/wedev-api.sky.pro/api/todos").then(response => response.json())
+};
+
 const App = () => { 
 
   const [value, setValue] = useState('');
+  const [todos, setTodos] = useState({
+      todos: []
+    }
+  );
+
+  useEffect(() => {
+    fetchTodos().then((data) => {
+      console.log(data);
+      setTodos(data)
+    })
+  }, []);
 
   const addTodo = () => {
-    alert('clicked')
+    setTodos({
+      todos: [
+        ...todos.todos,{
+          text: value,
+          id: Date.now(),
+          created_at: new Date(),
+          user: null,
+        }
+      ]
+    })
+    setValue("");
   };
 
   return (
