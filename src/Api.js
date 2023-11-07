@@ -7,6 +7,12 @@ export const getTodos = async () => {
             Authorization: `Bearer ${token}`
         }
     })
+
+    // ok - ответ код 200
+    if (!response.ok) {
+        throw new Error("Ошибка сервера")
+    }
+
     const data = await response.json();
     return data;
 };
@@ -16,13 +22,19 @@ export const postTodos = async (text) => {
     const response = await fetch('https://wedev-api.sky.pro/api/v2/todos', {
         headers: {
             Authorization: `Bearer ${token}`,
-            
+
         },
         method: 'POST',
         body: JSON.stringify({
             text,
         })
     })
+
+    // ok - ответ код 200
+    if (!response.ok) {
+        throw new Error("Ошибка сервера")
+    }
+
     const data = await response.json();
     return data;
 };
@@ -34,7 +46,13 @@ export const deleteTodos = async (id) => {
             Authorization: `Bearer ${token}`,
         },
         method: 'DELETE',
-    })
+    });
+
+    // ok - ответ код 200
+    if (!response.ok) {
+        throw new Error("Ошибка сервера")
+    }
+
     console.log(response);
     const data = await response.json();
     console.log(data);
