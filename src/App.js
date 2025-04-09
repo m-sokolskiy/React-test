@@ -1,10 +1,17 @@
-const App = () => { 
+const App = () => {
 
-  
+  const tasks = [
+    { id: 1, name: 'Тренировка' },
+    { id: 2, name: 'Учёба' },
+    { id: 3, name: 'Код' }
+  ];
+
   return (
-    <div>
-      <h1>Привет</h1>
-    </div>
+    <ul>
+      {tasks.map(task => (
+        <li key={task.id}>{task.name}</li>
+      ))}
+    </ul>
   );
 }
 
