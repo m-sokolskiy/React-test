@@ -39,7 +39,7 @@
     "@eslint/js": "^9.9.1",
     "eslint": "^8.57.0",
     "eslint-config-prettier": "^9.1.0",
-    "eslint-plugin-react": "^7.35.2",
+    "eslint-plugin-react": "^7.37.5",
     "globals": "^15.9.0",
     "pretier": "0.0.1"
   }
