@@ -1,8 +1,6 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 
 const App = () => {
-
-  const [doneOrders, setDoneOrders] = useState([]);
 
   const orders = [
     { id: 1, price: "100$", status: "done" },
@@ -12,22 +10,37 @@ const App = () => {
     { id: 5, price: "300$", status: "done" },
   ];
 
-  const filterDoneOrders = () => {
-    const filtered = orders
-      .filter((order) => order.status === "done")
-      .map((order) => (
-        <li key={order.id}>{parseInt(order.price)}</li>
-      ));
-    setDoneOrders(filtered);
+  const [order, setOrder] = useState(orders);
+  const [prices, setPrices] = useState(false);
+  const [sum, setSum] = useState(0);
+
+  const filterDone = () => {
+    const filteredDone = order.filter((item) => item.status === "done");
+    setOrder(filteredDone);
   };
 
-  useEffect(() => {
-    filterDoneOrders();
-  }, []);
+  const sumPrice = () => {
+    const result = order.map(item => parseInt(item.price)).reduce((acc, item) => acc + item)
+    console.log(result);
+    setSum(result)
+  };
+
+  const filterPrice = () => {
+    setPrices(true)
+  }
 
   return (
     <div>
-      <ul>{doneOrders}</ul>
+      {sum ? (<p>Сумма: {sum}</p>) : (<ul>
+        {order.map((item => (
+          <li key={item.id}>{prices ? `Цена: ${item.price}` : `Товар: ${item.id} Цена: ${item.price} Статус: ${item.status}`}</li>
+        )))}
+      </ul>)}
+
+      <button onClick={filterDone}>Вывести только завершённые заказы</button>
+      <button onClick={filterPrice}>Из них — получить только цены.</button>
+      <button onClick={sumPrice}>Посчитать сумму всех завершённых заказов.</button>
+
     </div>
   );
 
