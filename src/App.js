@@ -11,10 +11,29 @@ const App = () => {
 
   const [productsList] = useState(products)
   const [cart, setCart] = useState([])
+  const [sum, setSum] = useState()
 
   const addToCart = (item) => {
-    setCart([...cart, item])
+    if (!cart.some(cartItem => cartItem.id === item.id)) {
+      setCart([...cart, item])
+    }
   }
+
+  const removeFromCart = (id) => {
+    setCart(cart.filter(cartItem => cartItem.id !== id));
+  };
+
+  const removeCart = () => {
+    setCart([])
+    setSum()
+  };
+
+  const sumCart = () => {
+    const result = cart.reduce((acc, item) => {
+    return acc + item.price  
+    }, 0)
+    setSum(result)
+  };
 
   return (
     <div>
@@ -23,7 +42,7 @@ const App = () => {
         {productsList.map(item => {
           return (
             <li key={item.id}>{`${item.name}, цена: ${item.price}`}
-              <button onClick={() => addToCart(item)}>Добавить в корзину</button></li>
+              <button onClick={() => addToCart(item)}>Добавить</button></li>
           )
         })}
       </ul>
@@ -32,10 +51,17 @@ const App = () => {
         {cart.map(item => {
           return (
             <li key={item.id}>{`${item.name}, цена: ${item.price}`}
-              <button>Удалить из корзины</button></li>
+              <button onClick={() => removeFromCart(item.id)}>Удалить</button></li>
           )
         })}
       </ul>
+      <div>
+      <button onClick={sumCart}>Посчитать сумму</button>
+      {sum ? <h3>Сумма: {sum} </h3> : <h3>Сумма:</h3>}
+      </div>
+
+
+      <button onClick={removeCart}>Очистить корзину</button>
     </div>
   )
 
